@@ -26,11 +26,11 @@
 
 ## Features
 
-- TODO
+Dapla Toolbelt Automation is a Python package that provides automation tools for Dapla
 
 ## Requirements
 
-- TODO
+- Python 3.11 or higher
 
 ## Installation
 
