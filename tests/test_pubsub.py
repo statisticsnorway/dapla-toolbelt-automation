@@ -27,17 +27,20 @@ class TestPubSub(unittest.TestCase):
 
     @patch("dapla_toolbelt_automation.pubsub.storage.Client")
     def test_get_list_of_blobs_with_prefix(
-        self, mock_storage_client_class: Mock
+        self,
+        mock_storage_client_class: Mock,
     ) -> None:
 
         fake_storage_client_instance = mock_storage_client_class.return_value
         fake_storage_client_instance.list_blobs.side_effect = NotFound(
-            "bucket not found"
+            "bucket not found",
         )
 
         with self.assertRaises((DefaultCredentialsError, NotFound)):
             _get_list_of_blobs_with_prefix(
-                self.bucket_id, self.folder_prefix, self.project_id
+                self.bucket_id,
+                self.folder_prefix,
+                self.project_id,
             )
 
     def test_generate_pubsub_data(self) -> None:
@@ -53,7 +56,10 @@ class TestPubSub(unittest.TestCase):
         mock_list.return_value = []
         with self.assertRaises(EmptyListError):
             _publish_gcs_objects_to_pubsub(
-                self.project_id, self.bucket_id, self.folder_prefix, self.topic_id
+                self.project_id,
+                self.bucket_id,
+                self.folder_prefix,
+                self.topic_id,
             )
 
     def test_get_callback(self) -> None:
@@ -65,25 +71,36 @@ class TestPubSub(unittest.TestCase):
 
     @patch("dapla_toolbelt_automation.pubsub._publish_gcs_objects_to_pubsub")
     def test_trigger_source_data_processing(
-        self, mock_publish_gcs_objects_to_pubsub: Mock
+        self,
+        mock_publish_gcs_objects_to_pubsub: Mock,
     ) -> None:
         dapla_toolbelt_automation.trigger_source_data_processing(
-            self.project_id, self.source_folder_name, self.folder_prefix
+            self.project_id,
+            self.source_folder_name,
+            self.folder_prefix,
+            kuben=False,
         )
 
         self.assertTrue(mock_publish_gcs_objects_to_pubsub.called)
         mock_publish_gcs_objects_to_pubsub.assert_called_with(
-            self.project_id, self.bucket_id, self.folder_prefix, topic_id=self.topic_id
+            self.project_id,
+            self.bucket_id,
+            self.folder_prefix,
+            topic_id=self.topic_id,
         )
 
     @patch("dapla_toolbelt_automation.pubsub._publish_gcs_objects_to_pubsub")
     def test_trigger_source_data_processing_kuben(
-        self, mock_publish_gcs_objects_to_pubsub: Mock
+        self,
+        mock_publish_gcs_objects_to_pubsub: Mock,
     ) -> None:
         kuben_project_id = "dapla-kildomaten-p-zz"
 
         dapla_toolbelt_automation.trigger_source_data_processing(
-            kuben_project_id, self.source_folder_name, self.folder_prefix, True
+            kuben_project_id,
+            self.source_folder_name,
+            self.folder_prefix,
+            kuben=True,
         )
 
         self.assertTrue(mock_publish_gcs_objects_to_pubsub.called)
