@@ -1,0 +1,24 @@
+{
+  "_copy_without_render": [
+    "*.rst_t"
+  ],
+  "_jinja2_env_vars": {
+    "lstrip_blocks": true,
+    "trim_blocks": true
+  },
+  "_template": "https://github.com/statisticsnorway/ssb-pypitemplate.git",
+  "author": "Dapla Developers",
+  "code_quality_level": "High",
+  "copyright_owner": "Statistics Norway",
+  "copyright_year": "2025",
+  "department_number": "724",
+  "dependency_manager_tool": "uv",
+  "development_status": "Development Status :: 5 - Production/Stable",
+  "email": "dapla-platform-developers@ssb.no",
+  "friendly_name": "Dapla Toolbelt Automation",
+  "github_organization": "statisticsnorway",
+  "license": "MIT",
+  "package_name": "dapla_toolbelt_automation",
+  "project_name": "dapla-toolbelt-automation",
+  "version": "0.0.0"
+}
