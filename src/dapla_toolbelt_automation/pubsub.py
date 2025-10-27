@@ -4,7 +4,7 @@ import typing as t
 from collections.abc import Callable
 from concurrent import futures
 
-import google.cloud.storage as storage
+from google.cloud import storage
 from google.cloud.pubsub_v1 import PublisherClient
 from google.cloud.pubsub_v1.publisher.futures import Future as PubSubFuture
 
@@ -12,11 +12,11 @@ from google.cloud.pubsub_v1.publisher.futures import Future as PubSubFuture
 class EmptyListError(Exception):
     """Empty list error."""
 
-    pass
-
 
 def _get_list_of_blobs_with_prefix(
-    bucket_name: str, folder_prefix: str, project_id: str
+    bucket_name: str,
+    folder_prefix: str,
+    project_id: str,
 ) -> list[storage.Blob]:
     """Helper function that gets a list of Blob objects in a Google Cloud Storage bucket that has a certain prefix.
 
@@ -78,7 +78,10 @@ def _get_callback(
 
 
 def _publish_gcs_objects_to_pubsub(
-    project_id: str, bucket_id: str, folder_prefix: str, topic_id: str
+    project_id: str,
+    bucket_id: str,
+    folder_prefix: str,
+    topic_id: str,
 ) -> None:
     """Publishes messages to a Pub/Sub topic for all objects in a Google Cloud Storage bucket with a given prefix.
 
@@ -96,7 +99,7 @@ def _publish_gcs_objects_to_pubsub(
 
     if len(blob_list) == 0:
         raise EmptyListError(
-            f"There are no files in {bucket_id:} with the given {folder_prefix:}."
+            f"There are no files in {bucket_id:} with the given {folder_prefix:}.",
         )
 
     publisher = PublisherClient()
@@ -109,7 +112,7 @@ def _publish_gcs_objects_to_pubsub(
 
         # When you publish a message, the client returns a future.
         publish_future = t.cast(
-            PubSubFuture,
+            "PubSubFuture",
             publisher.publish(
                 topic_path,
                 data=byte_data,
@@ -148,11 +151,10 @@ def _extract_project_name(project_id: str) -> str:
     match = re.match(r"^(.*)-[^-]+$", project_id)
     if match:
         return match.group(1)
-    else:
-        raise ValueError(
-            f"Invalid project ID: {project_id}, The project ID is expected to be in the format "
-            f"<project-name>-<unique-id>"
-        )
+    raise ValueError(
+        f"Invalid project ID: {project_id}, The project ID is expected to be in the format "
+        f"<project-name>-<unique-id>",
+    )
 
 
 def _extract_env(project_id: str) -> t.Literal["test", "prod"]:
@@ -172,13 +174,16 @@ def _extract_env(project_id: str) -> t.Literal["test", "prod"]:
     """
     char_to_env_map: dict[str, t.Literal["test", "prod"]] = {"t": "test", "p": "prod"}
     env_char = project_id.split("-")[-2]
-    if env_char not in char_to_env_map.keys():
+    if env_char not in char_to_env_map:
         raise ValueError("Invalid project id")
     return char_to_env_map[env_char]
 
 
 def trigger_source_data_processing(
-    project_id: str, source_name: str, folder_prefix: str, kuben: bool = False
+    project_id: str,
+    source_name: str,
+    folder_prefix: str,
+    kuben: bool = True,
 ) -> None:
     """Triggers a source data processing service with every file that has a given prefix.
 
@@ -200,5 +205,8 @@ def trigger_source_data_processing(
     source_name = source_name.replace("_", "-")
 
     _publish_gcs_objects_to_pubsub(
-        project_id, bucket_id, folder_prefix, topic_id=f"update-{source_name}"
+        project_id,
+        bucket_id,
+        folder_prefix,
+        topic_id=f"update-{source_name}",
     )
