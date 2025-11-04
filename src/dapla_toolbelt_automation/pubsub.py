@@ -214,7 +214,7 @@ def trigger_source_data_processing(
 def trigger_shared_data_processing(
     project_id: str,
     source_name: str,
-    folder_prefix: str,
+    folder_prefix: str
 ) -> None:
     """Triggers a shared data processing service with every file that has a given prefix.
 
@@ -222,7 +222,6 @@ def trigger_shared_data_processing(
         project_id (str): The ID of Google Cloud project containing the pubsub topic, this is normally the standard project.
         folder_prefix (str): The folder prefix of the files to be processed.
         source_name (str): The name of source that should process the files.
-        kuben (bool): Whether the team is on kuben or legacy.
     """
     project_name = _extract_project_name(project_id)
 
