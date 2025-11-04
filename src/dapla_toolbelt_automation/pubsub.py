@@ -212,9 +212,7 @@ def trigger_source_data_processing(
     )
 
 def trigger_shared_data_processing(
-    project_id: str,
-    source_name: str,
-    folder_prefix: str
+    project_id: str, source_name: str, folder_prefix: str
 ) -> None:
     """Triggers a shared data processing service with every file that has a given prefix.
 
