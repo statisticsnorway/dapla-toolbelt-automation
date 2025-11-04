@@ -210,3 +210,29 @@ def trigger_source_data_processing(
         folder_prefix,
         topic_id=f"update-{source_name}",
     )
+
+
+def trigger_shared_data_processing(
+    project_id: str, source_name: str, folder_prefix: str
+) -> None:
+    """Triggers a shared data processing service with every file that has a given prefix.
+
+    Args:
+        project_id (str): The ID of Google Cloud project containing the pubsub topic, this is normally the standard project.
+        folder_prefix (str): The folder prefix of the files to be processed.
+        source_name (str): The name of source that should process the files.
+    """
+    project_name = _extract_project_name(project_id)
+
+    env = _extract_env(project_id)
+    bucket_id = f"ssb-{project_name.rsplit('-', 1)[0]}-data-produkt-{env}"
+
+    # GCP resources for `Delomaten` are created with dash as seperator instead of underscore
+    source_name = source_name.replace("_", "-")
+
+    _publish_gcs_objects_to_pubsub(
+        project_id,
+        bucket_id,
+        folder_prefix,
+        topic_id=f"delomaten-update-{source_name}",
+    )
