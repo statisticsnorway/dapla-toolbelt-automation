@@ -211,6 +211,7 @@ def trigger_source_data_processing(
         topic_id=f"update-{source_name}",
     )
 
+
 def trigger_shared_data_processing(
     project_id: str, source_name: str, folder_prefix: str
 ) -> None:
