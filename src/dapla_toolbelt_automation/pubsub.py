@@ -219,8 +219,8 @@ def trigger_shared_data_processing(
 
     Args:
         project_id (str): The ID of Google Cloud project containing the pubsub topic, this is normally the standard project.
-        folder_prefix (str): The folder prefix of the files to be processed.
         source_name (str): The name of source that should process the files.
+        folder_prefix (str): The folder prefix of the files to be processed.
     """
     project_name = _extract_project_name(project_id)
 
