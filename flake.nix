@@ -28,6 +28,7 @@
             python313Packages.black
             python313Packages.ruff
             pkgs.uv
+            self'.packages.darglint
           ];
         };
         formatter = pkgs.alejandra;
@@ -36,7 +37,7 @@
           version = "1.8.1";
           src = pkgs.fetchPypi {
             inherit pname version;
-            hash = "sha256-CV6dKPQpWJzJ5WvG+4RJxG3vEj7PbLzZXXgTdGHc6Ts=";
+            hash = "sha256-CA1RBt8UmxmYIufufeucAStJiRU48UoRvmgQRPC7INo=";
           };
           format = "setuptools";
           doCheck = false;
