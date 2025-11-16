@@ -1,6 +1,6 @@
 [project]
 name = "dapla-toolbelt-automation"
-version = "1.1.0"
+version = "1.1.1"
 description = "Dapla Toolbelt Automation"
 authors = [{ name = "Dapla Developers", email = "dapla-platform-developers@ssb.no" }]
 maintainers = [{ name = "Statistics Norway, Data enablement Department (724)" }]
