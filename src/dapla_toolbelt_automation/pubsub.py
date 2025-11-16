@@ -219,7 +219,7 @@ def trigger_shared_data_processing(
 
     Args:
         project_id (str): The ID of Google Cloud project containing the pubsub topic, this is normally the standard project.
-        source_name (str): The name of source that should process the files.
+        source_name (str): The name of the 'delomaten' processor that should process the files. This corresponds to the name of the folder which your 'delomaten' configuration file is placed under i.e. if the path to the 'config.yaml' is 'automation/shared-data/mitt-dapla-team-prod/beftett/config.yaml' then the source_name is 'beftett'.
         folder_prefix (str): The folder prefix of the files to be processed.
     """
     project_name = _extract_project_name(project_id)
