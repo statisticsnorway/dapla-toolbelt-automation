@@ -22,6 +22,7 @@ class TestPubSub(unittest.TestCase):
     bucket_id = "ssb-prod-demo-fake-data-kilde"
     folder_prefix = "felles/kilde1"
     topic_id = "update-kilde1"
+    topic_id_delomaten = "delomaten-update-kilde1"
     source_folder_name = "kilde1"
     object_id = "felles/kilde1/test.csv"
 
@@ -109,6 +110,25 @@ class TestPubSub(unittest.TestCase):
             "ssb-dapla-kildomaten-data-kilde-prod",
             self.folder_prefix,
             topic_id=self.topic_id,
+        )
+
+    @patch("dapla_toolbelt_automation.pubsub._publish_gcs_objects_to_pubsub")
+    def test_trigger_shared_data_processing(
+        self,
+        mock_publish_gcs_objects_to_pubsub: Mock,
+    ) -> None:
+        kuben_project_id = "dapla-delomaten-p-zz"
+
+        dapla_toolbelt_automation.trigger_shared_data_processing(
+            kuben_project_id, self.source_folder_name, self.folder_prefix
+        )
+
+        self.assertTrue(mock_publish_gcs_objects_to_pubsub.called)
+        mock_publish_gcs_objects_to_pubsub.assert_called_with(
+            kuben_project_id,
+            "ssb-dapla-delomaten-data-produkt-prod",
+            self.folder_prefix,
+            topic_id=self.topic_id_delomaten,
         )
 
 
