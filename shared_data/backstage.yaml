@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: dapla-toolbelt-automation
+  name: dapla-toolbelt-automation-delomaten
   title: Dapla Toolbelt Automation (delomaten)
   description: |
     A python client for manually triggering 'delomaten' jobs
