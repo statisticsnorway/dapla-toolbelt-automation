@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: dapla-toolbelt-automation
+  title: Dapla Toolbelt Automation (kildomaten)
+  description: |
+    A python client for manually triggering 'kildomaten' jobs
+  tags:
+    - python
+  annotations:
+    github.com/project-slug: statisticsnorway/dapla-toolbelt-automation
+spec:
+  type: library
+  owner: dapla-stat-developers
+  lifecycle: production
+  system: kildomaten
